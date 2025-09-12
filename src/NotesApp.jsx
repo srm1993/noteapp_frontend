@@ -8,7 +8,7 @@ function NotesApp() {
 
   // Fetch notes
   useEffect(() => {
-    axios.get("http://localhost:5000/api/notes")
+    axios.get("https://noteapp-backend-ki18.onrender.com/api/notes")
       .then(res => setNotes(res.data))
       .catch(err => console.log(err));
   }, []);
@@ -18,14 +18,14 @@ function NotesApp() {
     if (!form.title || !form.content) return;
 
     if (editingId) {
-      axios.put(`http://localhost:5000/api/notes/${editingId}`, form)
+      axios.put(`https://noteapp-backend-ki18.onrender.com/api/notes/${editingId}`, form)
         .then(res => {
           setNotes(notes.map(note => note._id === editingId ? res.data : note));
           setForm({ title: "", content: "" });
           setEditingId(null);
         });
     } else {
-      axios.post("http://localhost:5000/api/notes", form)
+      axios.post("https://noteapp-backend-ki18.onrender.com/api/notes", form)
         .then(res => {
           setNotes([res.data, ...notes]);
           setForm({ title: "", content: "" });
@@ -35,7 +35,7 @@ function NotesApp() {
 
   // Delete Note
   const deleteNote = (id) => {
-    axios.delete(`http://localhost:5000/api/notes/${id}`)
+    axios.delete(`https://noteapp-backend-ki18.onrender.com/api/notes/${id}`)
       .then(() => {
         setNotes(notes.filter(note => note._id !== id));
       });
