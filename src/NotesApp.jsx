@@ -60,7 +60,7 @@ function NotesApp() {
 
   return (
     <div style={styles.container}>
-      <h2 style={styles.title}>📝 My Magical Notes</h2>
+      <h2 style={styles.title}>My Notes</h2>
 
       {/* Form */}
       <div style={styles.formCard}>
