@@ -8,9 +8,10 @@ function NotesApp() {
 
   // Fetch notes
   useEffect(() => {
-    axios.get("https://noteapp-backend-ki18.onrender.com/api/notes")
-      .then(res => setNotes(res.data))
-      .catch(err => console.log(err));
+    axios
+      .get("https://noteapp-backend-ki18.onrender.com/api/notes")
+      .then((res) => setNotes(res.data))
+      .catch((err) => console.log(err));
   }, []);
 
   // Add or Update Note
@@ -18,15 +19,24 @@ function NotesApp() {
     if (!form.title || !form.content) return;
 
     if (editingId) {
-      axios.put(`https://noteapp-backend-ki18.onrender.com/api/notes/${editingId}`, form)
-        .then(res => {
-          setNotes(notes.map(note => note._id === editingId ? res.data : note));
+      axios
+        .put(
+          `https://noteapp-backend-ki18.onrender.com/api/notes/${editingId}`,
+          form
+        )
+        .then((res) => {
+          setNotes(
+            notes.map((note) =>
+              note._id === editingId ? res.data : note
+            )
+          );
           setForm({ title: "", content: "" });
           setEditingId(null);
         });
     } else {
-      axios.post("https://noteapp-backend-ki18.onrender.com/api/notes", form)
-        .then(res => {
+      axios
+        .post("https://noteapp-backend-ki18.onrender.com/api/notes", form)
+        .then((res) => {
           setNotes([res.data, ...notes]);
           setForm({ title: "", content: "" });
         });
@@ -35,9 +45,10 @@ function NotesApp() {
 
   // Delete Note
   const deleteNote = (id) => {
-    axios.delete(`https://noteapp-backend-ki18.onrender.com/api/notes/${id}`)
+    axios
+      .delete(`https://noteapp-backend-ki18.onrender.com/api/notes/${id}`)
       .then(() => {
-        setNotes(notes.filter(note => note._id !== id));
+        setNotes(notes.filter((note) => note._id !== id));
       });
   };
 
@@ -57,13 +68,17 @@ function NotesApp() {
           type="text"
           placeholder="Enter title..."
           value={form.title}
-          onChange={(e) => setForm({ ...form, title: e.target.value })}
+          onChange={(e) =>
+            setForm({ ...form, title: e.target.value })
+          }
           style={styles.input}
         />
         <textarea
           placeholder="Write your note..."
           value={form.content}
-          onChange={(e) => setForm({ ...form, content: e.target.value })}
+          onChange={(e) =>
+            setForm({ ...form, content: e.target.value })
+          }
           style={styles.textarea}
         />
         <button onClick={handleSubmit} style={styles.addButton}>
@@ -71,15 +86,31 @@ function NotesApp() {
         </button>
       </div>
 
-      {/* Notes Grid */}
+      {/* Notes List */}
       <div style={styles.notesGrid}>
-        {notes.map(note => (
-          <div key={note._id} style={{ ...styles.noteCard, background: randomColor() }}>
+        {notes.map((note) => (
+          <div
+            key={note._id}
+            style={{
+              ...styles.noteCard,
+              background: randomColor(),
+            }}
+          >
             <h3 style={styles.noteTitle}>{note.title}</h3>
             <p style={styles.noteContent}>{note.content}</p>
             <div style={styles.actions}>
-              <button onClick={() => editNote(note)} style={styles.editButton}>✏️ Edit</button>
-              <button onClick={() => deleteNote(note._id)} style={styles.deleteButton}>🗑️ Delete</button>
+              <button
+                onClick={() => editNote(note)}
+                style={styles.editButton}
+              >
+                ✏️ Edit
+              </button>
+              <button
+                onClick={() => deleteNote(note._id)}
+                style={styles.deleteButton}
+              >
+                🗑️ Delete
+              </button>
             </div>
           </div>
         ))}
@@ -90,16 +121,24 @@ function NotesApp() {
 
 // 🎨 Random pastel colors for notes
 function randomColor() {
-  const colors = ["#FFEBEE", "#E3F2FD", "#E8F5E9", "#FFF3E0", "#F3E5F5", "#FBE9E7"];
+  const colors = [
+    "#FFEBEE",
+    "#E3F2FD",
+    "#E8F5E9",
+    "#FFF3E0",
+    "#F3E5F5",
+    "#FBE9E7",
+  ];
   return colors[Math.floor(Math.random() * colors.length)];
 }
 
 const styles = {
   container: {
-    maxWidth: "1000px",
+    maxWidth: "800px",
     margin: "40px auto",
     padding: "20px",
-    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+    fontFamily:
+      "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
   },
   title: {
     textAlign: "center",
@@ -144,8 +183,8 @@ const styles = {
     transition: "0.3s",
   },
   notesGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+    display: "flex",           // ✅ stacked vertically
+    flexDirection: "column",   // ✅ one by one
     gap: "20px",
   },
   noteCard: {
@@ -184,7 +223,7 @@ const styles = {
     borderRadius: "6px",
     cursor: "pointer",
     color: "white",
-  }
+  },
 };
 
 export default NotesApp;
