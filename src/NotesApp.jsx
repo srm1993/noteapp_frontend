@@ -20,7 +20,7 @@ function NotesApp() {
     if (name === "srm") {
       return true;
     } else {
-      alert("❌ Access Denied! Only 'srm' can edit or delete notes.");
+      alert("❌ Access Denied!");
       return false;
     }
   };
