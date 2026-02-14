@@ -14,6 +14,17 @@ function NotesApp() {
       .catch((err) => console.log(err));
   }, []);
 
+  // 🔐 Verify User Before Edit/Delete
+  const verifyUser = () => {
+    const name = prompt("Enter your name to continue:");
+    if (name === "srm") {
+      return true;
+    } else {
+      alert("❌ Access Denied! Only 'srm' can edit or delete notes.");
+      return false;
+    }
+  };
+
   // Add or Update Note
   const handleSubmit = () => {
     if (!form.title || !form.content) return;
@@ -45,6 +56,8 @@ function NotesApp() {
 
   // Delete Note
   const deleteNote = (id) => {
+    if (!verifyUser()) return;
+
     axios
       .delete(`https://noteapp-backend-ki18.onrender.com/api/notes/${id}`)
       .then(() => {
@@ -54,6 +67,8 @@ function NotesApp() {
 
   // Edit Note
   const editNote = (note) => {
+    if (!verifyUser()) return;
+
     setForm({ title: note.title, content: note.content });
     setEditingId(note._id);
   };
@@ -119,7 +134,7 @@ function NotesApp() {
   );
 }
 
-// 🎨 Random pastel colors for notes
+// 🎨 Random pastel colors
 function randomColor() {
   const colors = [
     "#FFEBEE",
@@ -137,8 +152,7 @@ const styles = {
     maxWidth: "800px",
     margin: "40px auto",
     padding: "20px",
-    fontFamily:
-      "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
   },
   title: {
     textAlign: "center",
@@ -180,18 +194,16 @@ const styles = {
     color: "white",
     fontSize: "16px",
     cursor: "pointer",
-    transition: "0.3s",
   },
   notesGrid: {
-    display: "flex",           // ✅ stacked vertically
-    flexDirection: "column",   // ✅ one by one
+    display: "flex",
+    flexDirection: "column",
     gap: "20px",
   },
   noteCard: {
     padding: "20px",
     borderRadius: "12px",
     boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-    transition: "transform 0.2s",
   },
   noteTitle: {
     margin: "0 0 10px 0",
