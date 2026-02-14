@@ -20,7 +20,7 @@ function NotesApp() {
     if (name === "srm") {
       return true;
     } else {
-      alert("❌ Access Denied!");
+      alert("❌ Access Denied! You can not modify the story.");
       return false;
     }
   };
